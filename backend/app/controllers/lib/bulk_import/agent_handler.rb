@@ -1,20 +1,22 @@
 require_relative 'handler'
 class AgentHandler < Handler
-    @@agents = {} 
-    @@agent_role ||= CvList.new('linked_agent_role')
-    @@agent_relators ||= CvList.new('linked_agent_archival_record_relators')
+
     AGENT_TYPES = { 'families' => 'family', 'corporate_entities' => 'corporate_entity', 'people' => 'person'}
-    def self.renew
-      clear(@@agent_relators)
-      clear(@@agent_role)
-      @@agents = {}
+    
+    def initialize(current_user)
+      super
+      @agents = {} 
+      agent_role = CvList.new('linked_agent_role', @current_user
+      @agent_relators ||= CvList.new('linked_agent_archival_record_relators', @current_user)
     end
-    def self.key_for(agent)
+    
+    
+    def key_for(agent)
       key = "#{agent[:type]} #{agent[:name]}"
       key
     end
     
-   def self.build(row, type, num)
+   def build(row, type, num)
      id = row.fetch("#{type}_agent_record_id_#{num}", nil)
      input_name = row.fetch("#{type}_agent_header_#{num}",nil)
      role = row.fetch("#{type}_agent_role_#{num}", nil)
@@ -29,7 +31,7 @@ class AgentHandler < Handler
      }
    end
 
-   def self.get_or_create(row, type, num, resource_uri, report)
+   def get_or_create(row, type, num, resource_uri, report)
      agent = build(row, type, num)
      agent_key = key_for(agent)
      if !(agent_obj = stored(@@agents, agent[:id], agent_key))

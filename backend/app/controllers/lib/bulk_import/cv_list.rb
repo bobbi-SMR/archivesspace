@@ -1,14 +1,21 @@
+Log.error("CVLIST Load")
 require 'pp'
+require_relative '../../../model/enumeration'
+require_relative '../../../lib/crud_helpers'
+require_relative 'bulk_import_mixins'
+include CrudHelpers
 
 class CvList
     
   @list = []
   @list_hash = {}
   @which = ''
+  @current_user
 
-  def initialize(which)
+  def initialize(which, current_user)
     @which = which
-    renew
+    @current_user = current_user
+  #  renew
   end
 
   def value(label)
@@ -25,10 +32,10 @@ class CvList
     @list.length
   end
 
-  def renew
+  def renew(current_user)
     @list = []
     list_hash = {}
-    enums =  AspaceImportClient::JSONModel(:enumeration)
+    enums = handle_raw_listing(Enumeration)
     Log.error("for #{@which}: #{enums}")
 =begin
     enums =  AspaceImportClient::JSONModel(:enumeration).all
