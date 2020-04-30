@@ -11,7 +11,7 @@
 class Handler
   require_relative "cv_list"
   require_relative "bulk_import_mixins"
-  require "pp"
+  include BulkImportMixins
 
   DISAMB_STR = " DISAMBIGUATE ME!"
 

@@ -1,4 +1,5 @@
 require_relative "bulk_import_mixins"
+require_relative "parent_tracker"
 require_relative "cv_list"
 require_relative "agent_handler"
 require_relative "container_instance_handler"
@@ -8,18 +9,18 @@ require_relative "notes_handler"
 require_relative "subject_handler"
 require_relative "../../../lib/uri_resolver"
 require "nokogiri"
-require "pp"
 require "rubyXL"
 require "asutils"
+include BulkImportMixins
 include URIResolver
 
-START_MARKER = /ArchivesSpace field code/.freeze
-DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
-MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
-MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
-MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
-
 class BulkImporter
+  START_MARKER = /ArchivesSpace field code/.freeze
+  DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
+  MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+  MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+  MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
+
   def run
     begin
       rows = initialize_info
@@ -277,7 +278,7 @@ class BulkImporter
       raise BulkImportException.new(msg)
     end
     ao.instances = create_top_container_instances
-    if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
+    if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
       ao.instances ||= []
       ao.instances << dig_instance
     end
@@ -433,7 +434,6 @@ class BulkImporter
         end
       end
       #digital_object_id	digital_object_title	publish	digital_object_link	thumbnail
-
       if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
         ao.instances ||= []
         ao.instances << dig_instance
