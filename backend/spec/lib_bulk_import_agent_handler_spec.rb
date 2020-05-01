@@ -38,6 +38,9 @@ describe "Agent Handler" do
     current_user = User.find(:username => "admin")
     @ah = AgentHandler.new(current_user)
     @agents = @ah.instance_variable_get(:@agents)
+    # because the internal db doesn't have this value!!!
+    enum = Enumeration[name: "name_source"]
+    enum.add_enumeration_value(:value => "ingest")
     @report = BulkImportReport.new
     @report.new_row(1)
   end
