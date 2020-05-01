@@ -1,5 +1,3 @@
-Log.error("report?")
-
 class BulkImportReport
   def initialize
     @rows = []
