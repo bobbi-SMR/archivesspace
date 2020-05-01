@@ -1,4 +1,5 @@
 require_relative "bulk_import_mixins"
+require_relative "bulk_import_report"
 require_relative "parent_tracker"
 require_relative "cv_list"
 require_relative "agent_handler"
