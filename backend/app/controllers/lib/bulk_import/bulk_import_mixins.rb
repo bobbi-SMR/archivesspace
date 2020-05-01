@@ -170,13 +170,13 @@ module BulkImportMixins
     end
     ret_val
   end
+end
 
-  class BulkImportException < Exception
-  end
+class BulkImportException < Exception
+end
 
-  class BulkImportDisambigException < BulkImportException
-  end
+class BulkImportDisambigException < BulkImportException
+end
 
-  class StopBulkImportException < Exception
-  end
+class StopBulkImportException < Exception
 end
