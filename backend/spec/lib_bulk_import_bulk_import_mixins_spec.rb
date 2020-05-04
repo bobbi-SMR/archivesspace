@@ -88,6 +88,23 @@ describe "Bulk Mixins" do
       resource_match(@no_ead_json, "VFIRST01", nil)
     }.to raise_error(BulkImportException, "This form's Resource is missing an EAD ID")
   end
+
+  it "retrieves an archival object by REF ID" do
+    ao = create(:json_archival_object, { :title => "archival object: Hi There" })
+    ao.resource = { :ref => @resource.uri }
+    ao.save
+    new_ao = archival_object_from_ref_or_uri(ao.ref_id, nil)
+    new_ao = new_ao[:ao]
+    expect(new_ao.uri).to eq(ao.uri)
+  end
+  it "retrieves an archival object by uri" do
+    ao = create(:json_archival_object, { :title => "archival object: Hi There" })
+    ao.resource = { :ref => @resource.uri }
+    ao.save
+    new_ao = archival_object_from_ref_or_uri(nil, ao.uri)
+    new_ao = new_ao[:ao]
+    expect(new_ao.title).to eq(ao.title)
+  end
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete
