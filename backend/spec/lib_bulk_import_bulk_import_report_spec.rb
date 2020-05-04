@@ -49,4 +49,21 @@ describe BulkImportReport do
     expect(row.info.length).to eq(2)
     expect(row.info[1]).to eq("second info line")
   end
+  it "identifies an archival object" do
+    create(:repo)
+    resource = create(:json_resource)
+    resource.save
+    ao = create(:json_archival_object, { :title => "archival object: Hi There" })
+    ao.resource = { :ref => resource.uri }
+    ao.save
+    report = BulkImportReport.new
+    report.new_row(1)
+    report.add_info("This is info for an archival object")
+    report.add_archival_object(ao)
+    report.end_row
+    row = report.rows[0]
+    expect(row.archival_object_display).to eq("archival object: Hi There")
+    expect(row.archival_object_id).to eq(ao.uri)
+    expect(row.info[0]).to eq("This is info for an archival object")
+  end
 end
