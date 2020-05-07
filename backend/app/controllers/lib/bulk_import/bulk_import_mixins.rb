@@ -1,8 +1,8 @@
 require_relative "crud_helpers"
-include CrudHelpers
 
 # contains  methods that might be needed for more than one bulk import converter
 module BulkImportMixins
+  include CrudHelpers
   # METHOD(s)
   def resolves
     ["subjects", "related_resources", "linked_agents",

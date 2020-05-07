@@ -1,9 +1,10 @@
 require_relative "../../../model/enumeration"
 require_relative "crud_helpers"
 require_relative "bulk_import_mixins"
-include CrudHelpers
 
 class CvList
+  include CrudHelpers
+
   @list = []
   @list_hash = {}
   @which = ""
