@@ -12,10 +12,11 @@ require_relative "../../../lib/uri_resolver"
 require "nokogiri"
 require "rubyXL"
 require "asutils"
-include BulkImportMixins
+
 include URIResolver
 
 class BulkImporter
+  include BulkImportMixins
   START_MARKER = /ArchivesSpace field code/.freeze
   DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
   MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
