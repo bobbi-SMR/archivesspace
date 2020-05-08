@@ -1,7 +1,8 @@
 require "spec_helper"
 require_relative "../app/controllers/lib/bulk_import/bulk_import_mixins.rb"
+include BulkImportMixins
 
-describe "Bulk Mixins" do
+describe "Bulk Import Mixins" do
   before(:each) do
     create(:repo)
     @current_user = User.find(:username => "admin")
