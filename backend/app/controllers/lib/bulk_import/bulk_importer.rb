@@ -13,9 +13,8 @@ require "nokogiri"
 require "rubyXL"
 require "asutils"
 
-include URIResolver
-
 class BulkImporter
+  include URIResolver
   include BulkImportMixins
   START_MARKER = /ArchivesSpace field code/.freeze
   DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
