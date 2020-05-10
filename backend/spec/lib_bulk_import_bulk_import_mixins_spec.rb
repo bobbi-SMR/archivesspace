@@ -4,7 +4,6 @@ include BulkImportMixins
 
 describe "Bulk Import Mixins" do
   before(:each) do
-    create(:repo)
     @current_user = User.find(:username => "admin")
     # create the resource
     @resource_json = JSONModel(:resource).from_hash("title" => "a resource",

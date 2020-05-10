@@ -50,7 +50,6 @@ describe BulkImportReport do
     expect(row.info[1]).to eq("second info line")
   end
   it "identifies an archival object" do
-    create(:repo)
     resource = create(:json_resource)
     resource.save
     ao = create(:json_archival_object, { :title => "archival object: Hi There" })
