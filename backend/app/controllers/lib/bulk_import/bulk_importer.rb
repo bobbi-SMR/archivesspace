@@ -314,7 +314,7 @@ class BulkImporter
       ex = JSONModel(:extent).new(extent)
       return ex if test_exceptions(ex, "Extent")
     rescue Exception => e
-      @report.add_errors(I18n.t("plugins.aspace-import-excel.error.extent_validation", :msg => e.message, :ext => ext_str))
+      @report.add_errors(I18n.t("bulk_import.error.extent_validation", :msg => e.message, :ext => ext_str))
       return nil
     end
   end
